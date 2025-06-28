@@ -9,7 +9,7 @@ def simulate_resonance(fuel_key, base_frequency, cycles=100):
 
     for t in range(cycles):
         freq = base_frequency + np.sin(t / 10.0) * 100  # simulate drift
-        resonance = calculate_resonance_boost(freq)
+resonance = calculate_resonance_boost(freq, "mirror_loop")
         output, loss = fuel.process(100)
         results.append((t, freq, resonance, output, loss))
 
