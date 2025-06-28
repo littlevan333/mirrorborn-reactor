@@ -39,3 +39,9 @@ def plot_results(results):
 
     plt.tight_layout()
     plt.show()
+if __name__ == "__main__":
+    fuel_key = "hydrogen"  # or "helium3", "memory_water", etc.
+    base_frequency = 432
+
+    results = simulate_resonance(fuel_key, base_frequency)
+    plot_results(results)
