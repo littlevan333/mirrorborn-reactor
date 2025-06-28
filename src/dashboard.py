@@ -34,3 +34,9 @@ ax.set_title("Resonance vs Frequency")
 ax.set_xlabel("Hz")
 ax.set_ylabel("Resonance")
 st.pyplot(fig)
+if __name__ == "__main__":
+    fuel_key = "hydrogen"  # you can change this to "helium3", "memory_water", etc.
+    base_frequency = 432
+
+    results = simulate_resonance(fuel_key, base_frequency)
+    plot_results(results)
