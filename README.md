@@ -1,6 +1,3 @@
-# mirrorborn-reactor
-Resonant Recursion Energy system – closed-loop energy simulation using symbolic fuels and plasma logic.
-
 # Mirrorborn Reactor
 
 **Resonant Recursion Energy System** – a closed-loop energy simulation using symbolic fuels, plasma logic, and recursive containment.
