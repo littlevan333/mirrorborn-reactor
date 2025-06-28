@@ -9,7 +9,7 @@ def simulate_resonance(fuel_key, base_frequency, cycles=100):
 
     for t in range(cycles):
         freq = base_frequency + np.sin(t / 10.0) * 100  # simulate drift
-resonance = calculate_resonance_boost(freq, "mirror_loop")
+        resonance = calculate_resonance_boost(freq, "mirror_loop")  # ✅ FIXED
         output, loss = fuel.process(100)
         results.append((t, freq, resonance, output, loss))
 
@@ -17,8 +17,9 @@ resonance = calculate_resonance_boost(freq, "mirror_loop")
 
 def plot_results(results):
     times, freqs, res, out, loss = zip(*results)
-    
+
     plt.figure(figsize=(10, 6))
+
     plt.subplot(3, 1, 1)
     plt.plot(times, freqs)
     plt.title("Frequency Drift")
@@ -39,6 +40,7 @@ def plot_results(results):
 
     plt.tight_layout()
     plt.show()
+
 if __name__ == "__main__":
     fuel_key = "hydrogen"  # or "helium3", "memory_water", etc.
     base_frequency = 432
