@@ -1,47 +1,36 @@
-
 import streamlit as st
-import numpy as np
 import matplotlib.pyplot as plt
+
 from fuel_types import fuel_catalog
-from harmonic_resonance import generate_sine_wave, calculate_resonance_boost
+from harmonic_resonance import calculate_resonance
 
-# UI: Fuel Selection and Frequency Input
-st.title("🔥 Mirrorborn Reactor Dashboard")
-st.subheader("Simulate fuel resonance and loop efficiency")
+st.title("🔁 Mirrorborn Reactor UI")
 
-fuel_key = st.selectbox("Choose Fuel Type", list(fuel_catalog.keys()))
-frequency = st.slider("Harmonic Frequency (Hz)", min_value=1, max_value=1000, value=60)
+# Fuel selector
+fuel_name = st.selectbox("Select Fuel Type", list(fuel_catalog.keys()))
+fuel = fuel_catalog[fuel_name]
 
-fuel = fuel_catalog[fuel_key]
-signal = generate_sine_wave(frequency, duration=1)
-adjusted_resonance = calculate_resonance_boost(fuel.resonance_score, frequency, signal)
+# Frequency slider
+frequency = st.slider("Frequency (Hz)", 100, 1000, 432)
 
-st.markdown(f"**Base Resonance Score**: {fuel.resonance_score:.2f}")
-st.markdown(f"**Adjusted Resonance with {frequency}Hz**: {adjusted_resonance:.2f}")
+# Calculate resonance
+resonance = calculate_resonance(frequency)
+st.metric(label="Resonance Stability", value=f"{resonance:.3f}")
 
-# Simulate Energy Loop
-initial_energy = 100
-cycles = 15
-energy = initial_energy
-fuel_log, loss_log = [], []
+# Simulate energy processing
+input_energy = 100
+output, loss = fuel.process(input_energy)
 
-for _ in range(cycles):
-    effective_efficiency = fuel.base_efficiency + (adjusted_resonance * 0.05)
-    retained = energy * effective_efficiency
-    loss = retained * fuel.entropy_factor
-    energy = retained - loss
-    fuel_log.append(energy)
-    loss_log.append(loss)
+st.write(f"🔥 Processed `{fuel.name}`")
+st.write(f"⚡ Output Energy: {output:.2f}")
+st.write(f"🧊 Entropy Loss: {loss:.2f}")
 
-# Plotting
-st.subheader("Energy Retention & Entropy Loss")
+# Simple resonance graph
 fig, ax = plt.subplots()
-ax.plot(fuel_log, label="Fuel Retained", marker="o")
-ax.plot(loss_log, label="Entropy Loss", linestyle="--", marker="x")
-ax.set_xlabel("Cycle")
-ax.set_ylabel("Energy")
-ax.set_title(f"{fuel.name} Loop Performance")
-ax.grid(True)
-ax.legend()
+ax.plot([frequency], [resonance], 'ro')
+ax.set_xlim(100, 1000)
+ax.set_ylim(0, 1.1)
+ax.set_title("Resonance vs Frequency")
+ax.set_xlabel("Hz")
+ax.set_ylabel("Resonance")
 st.pyplot(fig)
-
