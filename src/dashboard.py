@@ -1,8 +1,8 @@
-import streamlit as st
+﻿import streamlit as st
 import matplotlib.pyplot as plt
 
 from fuel_types import fuel_catalog
-from harmonic_resonance import calculate_resonance
+from harmonic_resonance import calculate_resonance_boost as calculate_resonance
 
 st.title("🔁 Mirrorborn Reactor UI")
 
